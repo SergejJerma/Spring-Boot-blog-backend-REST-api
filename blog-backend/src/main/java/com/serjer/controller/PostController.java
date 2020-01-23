@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +27,13 @@ public class PostController {
 	private PostService postService;
 	
 	
-	@GetMapping("/users/{userId}/posts")
+	@GetMapping(value = "/users/{userId}/posts")
     public List<Post> getPostsByUser(@PathVariable Long userId) {
       
 		return postService.getPostsByUserId(userId);
     }
 	
-	@PostMapping(value = "/users/{userId}/posts")
+	@PostMapping(value = "/users/{userId}/posts", produces = MediaType.APPLICATION_JSON_VALUE)
     public Post addPost(@PathVariable Long userId, 
     		     @Valid @RequestBody Post post) {
 	

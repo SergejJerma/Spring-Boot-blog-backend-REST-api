@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -36,4 +37,18 @@ public class Post {
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
 	private User author;
+
+	public Post(Long id, String title, String text) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.text = text;
+	}
+
+	public Post(String title, String text) {
+		super();
+		this.title = title;
+		this.text = text;
+	}
+	
 }
