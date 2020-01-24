@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,9 +38,11 @@ public class User implements UserDetails {
 	private Long id;
 	
 	@Column(name = "email")
+	@NotNull
 	private String email;
 	
 	@Column(name = "password")
+	@NotNull
 	private String password;
 	
 	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

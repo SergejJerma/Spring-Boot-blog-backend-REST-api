@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,9 +29,11 @@ public class Post {
 	private Long id;
 	
 	@Column(name = "title")
+	@NotNull
 	private String title;
 	
 	@Column(name = "text")
+	@NotNull
 	private String text;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
