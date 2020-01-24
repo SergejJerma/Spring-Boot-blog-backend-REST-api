@@ -1,5 +1,7 @@
 package com.serjer;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,12 +35,16 @@ class PostControllerTest {
 	@MockBean
 	private UserService userService;
 	
+	List<Post> mockListOfPostsByUser =  new ArrayList<>(Arrays.asList(
+												new Post(1L, "Pirmas", "Pirmas tekstas"),
+												new Post(2L, "Antras", "Antras tekstas"),
+												new Post(3L, "Trecias", "Trecias tekstas")));
+	Post postFromDb = new Post(1L, "Testas", "Tekstas idetas");
+	String examplePostJson = "{\"title\":\"Testas\",\"text\":\"Tekstas idetas\"}";
+	String message = "Deleted!";
+	
 	@Test
-	public void getPostsByUserTest() throws Exception {
-		List<Post> mockListOfPostsByUser =  new ArrayList<>(Arrays.asList(
-															new Post(Long.valueOf(1), "Pirmas", "Pirmas tekstas"),
-															new Post(Long.valueOf(2), "Antras", "Antras tekstas"),
-															new Post(Long.valueOf(3), "Trecias", "Trecias tekstas")));
+	void getPostsByUserTest() throws Exception {
 		
 		Mockito.when(postService.getPostsByUserId(Mockito.anyLong()))
 								.thenReturn(mockListOfPostsByUser);
@@ -56,13 +62,10 @@ class PostControllerTest {
 	}
 	
 	@Test
-	public void addPostTest() throws Exception {
-	
-		Post enteredPost = new Post("Testas", "Tekstas idetas");
-		String examplePostJson = "{\"title\":\"Testas\",\"text\":\"Tekstas idetas\"}";
-		
+	void addPostTest() throws Exception {
+			
 		Mockito.when(postService.addPostByUserId(Mockito.anyLong(), Mockito.any(Post.class)))
-								.thenReturn(enteredPost);
+								.thenReturn(postFromDb);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 											.post("/api/users/3/posts")
@@ -71,12 +74,46 @@ class PostControllerTest {
 											.contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		
-		System.out.println(result.getResponse().getContentAsString());
-		
-		String expected = "{\"id\":null,\"title\":\"Testas\",\"text\":\"Tekstas idetas\"}";
+			
+		String expected = "{\"id\":1,\"title\":\"Testas\",\"text\":\"Tekstas idetas\"}";
 		
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
+	}
+	
+	@Test
+	void updatePostTest() throws Exception {
+			
+		Mockito.when(postService.updatePostByUserIdAndPostId(Mockito.anyLong(), Mockito.anyLong(), Mockito.any(Post.class)))
+								.thenReturn(postFromDb);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+											.put("/api/users/3/posts/1")
+											.accept(MediaType.APPLICATION_JSON)
+											.content(examplePostJson)
+											.contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		
+		String expected = "{\"id\":1,\"title\":\"Testas\",\"text\":\"Tekstas idetas\"}";
+		
+		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
+	}
+	
+	@Test
+	void deletePostTest() throws Exception {
+			
+		Mockito.when(postService.deletePostByUserAndPostId(Mockito.anyLong(), Mockito.anyLong()))
+								.thenReturn(message);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+											.delete("/api/users/3/posts/1")
+											.accept(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		
+		String expected = "Deleted!";
+		
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 }
