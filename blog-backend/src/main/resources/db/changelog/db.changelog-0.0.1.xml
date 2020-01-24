@@ -7,26 +7,71 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-<changeSet id="1" author="serjer">
+  <changeSet id="1" author="serjer">
     <createTable tableName="posts">
-      <column name="id" type="bigint(20)" autoIncrement="true">
+      <column name="id" type="bigint" autoIncrement="true">
         <constraints primaryKey="true" nullable="false" />
       </column>
-      <column name="text" type="varchar(100)">
+      <column name="user_id" type="bigint">
+        <constraints unique="true" uniqueConstraintName="posts_user_fk" nullable="false" />
+      </column>
+      <column name="text" type="varchar(2048)">
         <constraints nullable="false" />
       </column>
-      <column name="version" type="int(10)" defaultValue="0">
-        <constraints nullable="false" />
+      <column name="title" type="varchar(255)" >
+        <constraints nullable="false"/>
       </column>
-      <column name="createdBy" type="varchar(100)">
-        <constraints nullable="false" />
-      </column>
-      <column name="createdAt" type="datetime">
-        <constraints nullable="false" />
-      </column>
-      <column name="updatedBy" type="varchar(100)" />
-      <column name="updatedAt" type="datetime" />
     </createTable>
   </changeSet>
+   
+  <changeSet id="2" author="serjer">
+    <createTable tableName="user_role">
+      <column name="roles" type="varchar(255)" >
+        <constraints nullable="true"/>
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints unique="true" uniqueConstraintName="user_role_user_fk" nullable="false" />
+      </column>
+    </createTable>
+  </changeSet>
+  
+  <changeSet id="3" author="serjer">
+    <createTable tableName="usr">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="email" type="varchar(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="password" type="varchar(255)" >
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+  </changeSet> 
+
+<changeSet id="4" author="serjer">
+    <addForeignKeyConstraint baseColumnNames="user_id"
+            baseTableName="posts"
+            constraintName="fk_posts_user"
+            deferrable="true"
+            initiallyDeferred="true"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="id"
+            referencedTableName="usr"/>
+</changeSet>
+
+<changeSet id="5" author="serjer">
+    <addForeignKeyConstraint baseColumnNames="user_id"
+            baseTableName="user_role"
+            constraintName="fk_user_role_user"
+            deferrable="true"
+            initiallyDeferred="true"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="id"
+            referencedTableName="usr"/>
+</changeSet>
+  
 
 </databaseChangeLog>

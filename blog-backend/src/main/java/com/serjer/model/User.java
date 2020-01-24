@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 @Table(name="usr")
 public class User implements UserDetails {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "email")
