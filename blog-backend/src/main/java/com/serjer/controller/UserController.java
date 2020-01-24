@@ -3,6 +3,8 @@ package com.serjer.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +21,15 @@ public class UserController {
 	
 
 	@PostMapping("/register")
-	public String userSingUp(@Valid @RequestBody User user) {
+	public ResponseEntity<String> userSingUp(@Valid @RequestBody User user) {
         
-        return userService.registerUser(user);	
+        return new ResponseEntity<>(userService.registerUser(user), HttpStatus.OK);	
 	}
 	
 	@PostMapping("/login")
-	public String userSingIn(@Valid @RequestBody User user) {
+	public ResponseEntity<String> userSingIn(@Valid @RequestBody User user) {
 		
-        return userService.loginUser(user);	
+        return new ResponseEntity<>(userService.loginUser(user), HttpStatus.OK);	
 	}
 
 }

@@ -12,6 +12,7 @@ import com.serjer.model.Post;
 import com.serjer.repos.PostRepo;
 import com.serjer.repos.UserRepo;
 
+
 @Service
 public class PostService {
 	
@@ -23,7 +24,6 @@ public class PostService {
 	
 	@Autowired
 	private PostRepo postRepo;
-	
 	
 	public List<Post> getPostsByUserId(Long userId) {
 		userService.verifyUserExistenceInDb(userId);

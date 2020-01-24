@@ -5,7 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,32 +28,32 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 	
-	
-	@GetMapping(value = "/users/{userId}/posts")
-    public List<Post> getPostsByUser(@PathVariable Long userId) {
-      
-		return postService.getPostsByUserId(userId);
+
+	@GetMapping(value = "/users/{userId}/posts", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Post>> getPostsByUser(@PathVariable Long userId) {
+		
+		return new ResponseEntity<>(postService.getPostsByUserId(userId), HttpStatus.OK);
     }
 	
 	@PostMapping(value = "/users/{userId}/posts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Post addPost(@PathVariable Long userId, 
+    public ResponseEntity<Post> addPost(@PathVariable Long userId, 
     		     @Valid @RequestBody Post post) {
 	
-        return postService.addPostByUserId(userId, post);
+        return new ResponseEntity<>(postService.addPostByUserId(userId, post), HttpStatus.OK);
     }
 	
-	@PutMapping("/users/{userId}/posts/{postId}")
-	    public Post updatePost(@PathVariable Long userId,
+	@PutMapping(value = "/users/{userId}/posts/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	    public ResponseEntity<Post> updatePost(@PathVariable Long userId,
 	                    	   @PathVariable Long postId,
 	                    @Valid @RequestBody Post postUpdated) {
 
-		 return postService.updatePostByUserIdAndPostId(userId, postId, postUpdated);
+		 return new ResponseEntity<>(postService.updatePostByUserIdAndPostId(userId, postId, postUpdated), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/users/{userId}/posts/{postId}")
-    public String deletePost(@PathVariable Long userId,
+    public ResponseEntity<String> deletePost(@PathVariable Long userId,
                              @PathVariable Long postId) {
     
-        return postService.deletePostByUserAndPostId(userId, postId);
+        return new ResponseEntity<>(postService.deletePostByUserAndPostId(userId, postId), HttpStatus.OK);
     }
 }
