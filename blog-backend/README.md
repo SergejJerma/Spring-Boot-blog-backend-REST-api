@@ -53,17 +53,6 @@ Response:
 ```
 User exits!
 ```
-POST http://localhost:8080/api/register
-```
-{
-	"email" : "rytas@www.com",
-	"password" : "labas"
-}
-```
-Response:
-```
-User singed up!
-```
 POST http://localhost:8080/api/login
 ```
 {
@@ -73,7 +62,7 @@ POST http://localhost:8080/api/login
 ```
 Response:
 ```
-You are singed in!
+User singed up!
 ```
 POST http://localhost:8080/api/login
 ```
