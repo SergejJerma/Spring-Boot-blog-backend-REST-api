@@ -107,31 +107,31 @@ Response:
 POST http://localhost:8080/api/users/3/posts
 ```
 {
-	"title":"Vestibulum semper",
-	"text":"Lorem ipsum dolor sit amet."
+	"title":"Atubi finis",
+	"text":"In varius in ligula quis."
 }
 ```
 Response:
 ```
 {
-    "id": 5,
-    "title": "Vestibulum semper",
-    "text": "Lorem ipsum dolor sit amet."
+    "id": 6,
+    "title": "Atubi finis",
+    "text": "In varius in ligula quis."
 }
 ```
-PUT http://localhost:8080/api/users/3/posts/4
+PUT http://localhost:8080/api/users/3/posts/6
 ```
 {
-	"title":"Morbi finibus",
-	"text":"Phasellus tempus neque at rutrum."
+	"title":"Proin dapibus",
+	"text":"Aenean nibh lorem, volutpat sodales."
 }
 ```
 Response:
 ```
 {
-    "id": 4,
-    "title":"Morbi finibus",
-    "text":"Phasellus tempus neque at rutrum."
+    "id": 6,
+    "title": "Proin dapibus",
+    "text": "Aenean nibh lorem, volutpat sodales."
 }
 ```
 DELETE http://localhost:8080/api/users/3/posts/5
