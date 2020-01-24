@@ -159,8 +159,9 @@ jei nurodomi neegzituojančių vartotojų arba įrašų id, metamos atitinkamos 
 ```
 
 ## Papildoma info
+* Vartotojo slaptažodžiai duomenų bazėje šifruojami;
 * Programoje sukonfigūruoti DB versijavimo įrankiai Liquibase (enable=true) ir Flyway (enable=false);
-* Pakeitus prisijungimo prie DB duomenis, galima lengvai perkelti ant kitos duomenų bazės.
+* Pakeitus prisijungimo prie DB duomenis, programa lengvai persikelia ant kitos duomenų bazės.
   
 ## Testai
 Visi “endpoint'ai” padengti unit testais (Junit, MocMvc, Mockito).
