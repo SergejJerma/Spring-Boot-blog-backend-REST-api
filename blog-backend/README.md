@@ -84,7 +84,7 @@ POST http://localhost:8080/api/login
 ```
 Response:
 ```
-Invalid login data!
+Bad credentials!
 ```
 GET http://localhost:8080/api/users/3/posts
 
