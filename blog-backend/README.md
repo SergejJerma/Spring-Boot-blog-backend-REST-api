@@ -22,8 +22,8 @@ Programoje yra dvi POJO klasės - User, Post bei enum Role.
 ## Veikimas
 Vartotojo API:
 ```
-POST /api/register - prisiregistravimas (email, password); 
-POST /api/login - prisijungimas (email, password);
+POST /api/singup - prisiregistravimas (email, password); 
+POST /api/singin - prisijungimas (email, password);
 ```
 dienoraščio API:
 ```
@@ -33,7 +33,7 @@ PUT /api/users/{userId}/posts/{postId} - atnaujinti įrašo title/text dalį;
 DELETE /api/users/{userId}/posts/{postId} -ištrinti įrašą (trinti pagal ID).
 ```
 ## Bandymai su POSTman
-POST http://localhost:8080/api/register
+POST http://localhost:8080/api/singup
 ```
 {
 	"email" : "rytas@www.com",
@@ -44,7 +44,7 @@ Response:
 ```
 User singed up!
 ```
-POST http://localhost:8080/api/register
+POST http://localhost:8080/api/singup
 ```
 {
 	"email" : "rytas@www.com",
@@ -55,7 +55,7 @@ Response:
 ```
 User exits!
 ```
-POST http://localhost:8080/api/login
+POST http://localhost:8080/api/singin
 ```
 {
 	"email" : "rytas@www.com",
@@ -66,7 +66,7 @@ Response:
 ```
 User singed up!
 ```
-POST http://localhost:8080/api/login
+POST http://localhost:8080/api/singin
 ```
 {
 	"email" : "rytaszz@www.com",
@@ -77,7 +77,7 @@ Response:
 ```
 User not yet registered!
 ```
-POST http://localhost:8080/api/login
+POST http://localhost:8080/api/singin
 ```
 {
 	"email" : "rytas@www.com",
