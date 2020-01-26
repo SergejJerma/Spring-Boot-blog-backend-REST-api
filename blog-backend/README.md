@@ -15,7 +15,7 @@ PostgreSQL
 ```
 
 ## Klasės/Ryšiai
-Programoje yra dvi POJO klasės - User, Post
+Programoje yra dvi POJO klasės - User, Post bei enum Role.
 * User -> Post (@OneToMany)
 
 
