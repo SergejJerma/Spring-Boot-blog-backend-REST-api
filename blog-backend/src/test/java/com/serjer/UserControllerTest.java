@@ -1,5 +1,6 @@
 package com.serjer;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,9 @@ import com.serjer.service.UserService;
 class UserControllerTest {
 
 	@Autowired
+	UserController controller;
+	
+	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
@@ -31,12 +35,17 @@ class UserControllerTest {
 	String exampleUserJson = "{\"email\":\"test@test.com\",\"password\":\"testas\"}";
 	
 	@Test
+	public void testUsertController() throws Exception {
+		assertThat(controller).isNotNull();
+	}
+	
+	@Test
 	void userSingUpTest() throws Exception {
 				
 		Mockito.when(userService.registerUser(Mockito.any(User.class))).thenReturn(message1);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
-												.post("/api/register")
+												.post("/api/singup")
 												.accept(MediaType.APPLICATION_JSON)
 												.content(exampleUserJson)
 												.contentType(MediaType.APPLICATION_JSON);
@@ -55,7 +64,7 @@ class UserControllerTest {
 		Mockito.when(userService.loginUser(Mockito.any(User.class))).thenReturn(message2);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
-												.post("/api/login")
+												.post("/api/singin")
 												.accept(MediaType.APPLICATION_JSON)
 												.content(exampleUserJson)
 												.contentType(MediaType.APPLICATION_JSON);

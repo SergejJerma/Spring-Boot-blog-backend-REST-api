@@ -18,15 +18,15 @@ public class UserController {
 	
 	@Autowired 
 	private UserService userService;
-	
 
-	@PostMapping("/register")
+
+	@PostMapping("/singup")
 	public ResponseEntity<String> userSingUp(@Valid @RequestBody User user) {
         
         return new ResponseEntity<>(userService.registerUser(user), HttpStatus.OK);	
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/singin")
 	public ResponseEntity<String> userSingIn(@Valid @RequestBody User user) {
 		
         return new ResponseEntity<>(userService.loginUser(user), HttpStatus.OK);	

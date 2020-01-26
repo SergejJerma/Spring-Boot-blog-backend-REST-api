@@ -1,5 +1,6 @@
 package com.serjer.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.serjer.model.Post;
 import com.serjer.service.PostService;
+import com.serjer.service.UserService;
 
 @RestController
 @RequestMapping("/api")
@@ -28,31 +30,38 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 	
+	@Autowired
+	private UserService userService;
+	
 
 	@GetMapping(value = "/users/{userId}/posts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Post>> getPostsByUser(@PathVariable Long userId) {
+    public ResponseEntity<List<Post>> getPostsByUser(@PathVariable Long userId, 
+    															   Principal principal) {
+	
+		userService.checkCurrentUserPermissionById(userId, principal);	
 		
 		return new ResponseEntity<>(postService.getPostsByUserId(userId), HttpStatus.OK);
+
     }
 	
 	@PostMapping(value = "/users/{userId}/posts", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Post> addPost(@PathVariable Long userId, 
-    		     @Valid @RequestBody Post post) {
+    		                     @Valid @RequestBody Post post) {
 	
         return new ResponseEntity<>(postService.addPostByUserId(userId, post), HttpStatus.OK);
     }
 	
 	@PutMapping(value = "/users/{userId}/posts/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	    public ResponseEntity<Post> updatePost(@PathVariable Long userId,
-	                    	   @PathVariable Long postId,
-	                    @Valid @RequestBody Post postUpdated) {
+	                    	                   @PathVariable Long postId,
+	                                    @Valid @RequestBody Post postUpdated) {
 
 		 return new ResponseEntity<>(postService.updatePostByUserIdAndPostId(userId, postId, postUpdated), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/users/{userId}/posts/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable Long userId,
-                             @PathVariable Long postId) {
+             								 @PathVariable Long postId) {
     
         return new ResponseEntity<>(postService.deletePostByUserAndPostId(userId, postId), HttpStatus.OK);
     }

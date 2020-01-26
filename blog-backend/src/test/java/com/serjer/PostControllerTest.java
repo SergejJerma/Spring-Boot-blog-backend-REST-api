@@ -1,6 +1,12 @@
 package com.serjer;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -28,6 +35,9 @@ class PostControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	PostController controller;
 
 	@MockBean
 	private PostService postService;
@@ -44,16 +54,32 @@ class PostControllerTest {
 	String message = "Deleted!";
 	
 	@Test
+	public void testPostController() throws Exception {
+		assertThat(controller).isNotNull();
+	}
+			
+	@Test
+	@WithMockUser
+	public void correctLoginTest() throws Exception {
+		this.mockMvc.perform(get("/api/users/1/posts").param("user", "password"))
+				.andDo(print())
+				.andExpect(status().isOk());
+
+	}
+	
+	@Test
+	@WithMockUser
 	void getPostsByUserTest() throws Exception {
+				
 		
 		Mockito.when(postService.getPostsByUserId(Mockito.anyLong()))
 								.thenReturn(mockListOfPostsByUser);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
-											.get("/api/users/1/posts")
+											.get("/api/users/1/posts").param("user", "password")
 											.accept(MediaType.APPLICATION_JSON);
 		
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		MvcResult result = mockMvc.perform(requestBuilder).andExpect(authenticated()).andReturn();
 	
 		String expected = "[{\"id\":1,\"title\":\"Pirmas\",\"text\":\"Pirmas tekstas\"},"
 						 + "{\"id\":2,\"title\":\"Antras\",\"text\":\"Antras tekstas\"},"

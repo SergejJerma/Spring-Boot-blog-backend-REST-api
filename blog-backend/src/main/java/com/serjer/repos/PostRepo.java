@@ -9,5 +9,4 @@ import com.serjer.model.Post;
 public interface PostRepo extends JpaRepository<Post, Long> {
 
 	List<Post> findByAuthorId(Long userId);
-
 }
