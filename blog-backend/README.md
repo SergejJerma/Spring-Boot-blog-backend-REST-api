@@ -1,4 +1,4 @@
-# Blogo backend dalis
+# Blogo backend dalis (RESTful)
 
 Sukurta dienoraščio back-end dalis, kuri leidžia vartotojui užsiregistruoti, prisijungti, talpinti įrašus, juos koreguoti bei ištrinti.
 
@@ -7,21 +7,23 @@ Sukurta dienoraščio back-end dalis, kuri leidžia vartotojui užsiregistruoti,
 ```
 Java SE 11
 Spring Boot 2.2.1
+JPA
+Security
 Maven 3.6.1
 Lombok v1.18.10
 PostgreSQL
 ```
 
 ## Klasės/Ryšiai
-Programoje yra dvi POJO klasės - User, Post
+Programoje yra dvi POJO klasės - User, Post bei enum Role.
 * User -> Post (@OneToMany)
 
 
 ## Veikimas
 Vartotojo API:
 ```
-POST /api/register - prisiregistravimas (email, password); 
-POST /api/login - prisijungimas (email, password);
+POST /api/singup - prisiregistravimas (email, password); 
+POST /api/singin - prisijungimas (email, password);
 ```
 dienoraščio API:
 ```
@@ -31,7 +33,7 @@ PUT /api/users/{userId}/posts/{postId} - atnaujinti įrašo title/text dalį;
 DELETE /api/users/{userId}/posts/{postId} -ištrinti įrašą (trinti pagal ID).
 ```
 ## Bandymai su POSTman
-POST http://localhost:8080/api/register
+POST http://localhost:8080/api/singup
 ```
 {
 	"email" : "rytas@www.com",
@@ -42,7 +44,7 @@ Response:
 ```
 User singed up!
 ```
-POST http://localhost:8080/api/register
+POST http://localhost:8080/api/singup
 ```
 {
 	"email" : "rytas@www.com",
@@ -53,7 +55,7 @@ Response:
 ```
 User exits!
 ```
-POST http://localhost:8080/api/login
+POST http://localhost:8080/api/singin
 ```
 {
 	"email" : "rytas@www.com",
@@ -64,7 +66,7 @@ Response:
 ```
 User singed up!
 ```
-POST http://localhost:8080/api/login
+POST http://localhost:8080/api/singin
 ```
 {
 	"email" : "rytaszz@www.com",
@@ -75,7 +77,7 @@ Response:
 ```
 User not yet registered!
 ```
-POST http://localhost:8080/api/login
+POST http://localhost:8080/api/singin
 ```
 {
 	"email" : "rytas@www.com",
@@ -160,8 +162,9 @@ jei nurodomi neegzituojančių vartotojų arba įrašų id, metamos atitinkamos 
 
 ## Papildoma info
 * Vartotojo slaptažodžiai duomenų bazėje šifruojami;
-* Programoje sukonfigūruoti DB versijavimo įrankiai Liquibase (enable=true) ir Flyway (enable=false);
-* Pakeitus prisijungimo prie DB duomenis, programa lengvai persikelia ant kitos duomenų bazės.
+* Dienoraščio API (GET /api/users/{userId}/posts - gauti vartotojo įrašus) apsaugotas ir grąžina tik konkretaus prisijungusio vartotojo dienoraščio įrašus, jei bandoma gauti kito vartotojo įrašus - metamas atitinkomos išimties tekstas; 
+* Programoje sukonfigūruoti keli DB versijavimo įrankiai, kad būtų galima pasirinkti kokį patagiau naudoti: Liquibase (enable=true) ir Flyway (enable=false);
+* Pakeitus prisijungimo prie DB duomenis, programa lengvai persikelia ant kitos duomenų bazės (buvo testuota su H2).
   
 ## Testai
 Visi “endpoint'ai” padengti unit testais (Junit, MocMvc, Mockito).
