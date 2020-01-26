@@ -7,6 +7,8 @@ Sukurta dienoraščio back-end dalis, kuri leidžia vartotojui užsiregistruoti,
 ```
 Java SE 11
 Spring Boot 2.2.1
+JPA
+Security
 Maven 3.6.1
 Lombok v1.18.10
 PostgreSQL
