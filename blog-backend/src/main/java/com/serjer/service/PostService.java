@@ -26,8 +26,7 @@ public class PostService {
 	private PostRepo postRepo;
 	
 	public List<Post> getPostsByUserId(Long userId) {
-		if(!userService.verifyUserExistenceInDb(userId)) 
-			throw new NotFoundException("User not found!");
+		userService.verifyUserExistenceInDb(userId);
 	    	  
 		return postRepo.findByAuthorId(userId);
 	}
@@ -42,8 +41,7 @@ public class PostService {
 	}
 	
 	public Post updatePostByUserIdAndPostId(Long userId, Long postId, Post postUpdated) {
-		if(!userService.verifyUserExistenceInDb(userId)) 
-			throw new NotFoundException("User not found!");
+		userService.verifyUserExistenceInDb(userId);
 	   
 		return postRepo.findById(postId)
 				.map(post ->{
@@ -54,8 +52,7 @@ public class PostService {
 	}
 
 	public String deletePostByUserAndPostId(Long userId, Long postId) {
-		if(!userService.verifyUserExistenceInDb(userId)) 
-			throw new NotFoundException("User not found!");
+		userService.verifyUserExistenceInDb(userId);
 		
 		return postRepo.findById(postId)
 			    .map(post -> {

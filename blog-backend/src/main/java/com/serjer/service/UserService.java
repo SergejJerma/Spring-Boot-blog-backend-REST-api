@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.serjer.exceptions.NotFoundException;
 import com.serjer.exceptions.PermissionGetDataException;
 import com.serjer.model.Role;
 import com.serjer.model.User;
@@ -56,8 +57,8 @@ public class UserService implements UserDetailsService {
 		
 	}
 	
-	public boolean verifyUserExistenceInDb(Long userId) {
-		return userRepo.existsById(userId);	
+	public void verifyUserExistenceInDb(Long userId) {
+		if(!userRepo.existsById(userId)) throw new NotFoundException("User not found!");
 	}
 	
 	public void checkCurrentUserPermissionById(Long userId, Principal principal) {
