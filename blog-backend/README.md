@@ -160,8 +160,9 @@ jei nurodomi neegzituojančių vartotojų arba įrašų id, metamos atitinkamos 
 
 ## Papildoma info
 * Vartotojo slaptažodžiai duomenų bazėje šifruojami;
-* Programoje sukonfigūruoti DB versijavimo įrankiai Liquibase (enable=true) ir Flyway (enable=false);
-* Pakeitus prisijungimo prie DB duomenis, programa lengvai persikelia ant kitos duomenų bazės.
+* Dienoraščio API (GET /api/users/{userId}/posts - gauti vartotojo įrašus) apsaugotas ir grąžina tik konkretaus prisijungusio vartotojo dienoraščio įrašus, jei bandoma gauti kito vartotojo įrašus - metamas atitinkomos išimties tekstas; 
+* Programoje sukonfigūruoti keli DB versijavimo įrankiai: Liquibase (enable=true) ir Flyway (enable=false);
+* Pakeitus prisijungimo prie DB duomenis, programa lengvai persikelia ant kitos duomenų bazės (buvo testuota su H2).
   
 ## Testai
 Visi “endpoint'ai” padengti unit testais (Junit, MocMvc, Mockito).
