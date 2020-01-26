@@ -1,4 +1,4 @@
-# Blogo backend dalis
+# Blogo backend dalis (RESTful)
 
 Sukurta dienoraščio back-end dalis, kuri leidžia vartotojui užsiregistruoti, prisijungti, talpinti įrašus, juos koreguoti bei ištrinti.
 
